@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Strips from './strips/pages/Strips';
+import Chapters from './chapter/pages/Chapters';
 import NewStrip from './strips/pages/NewStrip';
 import './App.css';
 
@@ -9,10 +9,7 @@ const App = () => {
     <Router>
       <Switch>
         <Route path="/" exact>
-          <Strips />
-        </Route>
-        <Route path="/strips/new" exact>
-          <NewStrip />
+          <Chapters />
         </Route>
       </Switch>
     </Router>
