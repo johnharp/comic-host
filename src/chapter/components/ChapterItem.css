@@ -25,8 +25,7 @@
   }
   
   .chapter-item__image {
-    width: 4rem;
-    height: 4rem;
+    height: 8rem;
     margin-right: 1rem;
   }
   
@@ -45,5 +44,5 @@
   }
   
   .chapter-item__info h3 {
-    margin: 0;
+    margin: 0 2rem 0 0;
   }
