@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Chapters from "./chapter/pages/Chapters";
-import NewStrip from "./strips/pages/NewStrip";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import "./App.css";
 
