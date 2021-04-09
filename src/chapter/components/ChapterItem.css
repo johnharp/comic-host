@@ -31,8 +31,9 @@
   
   .chapter-item__info h2 {
     font-size: 1.5rem;
+    font-family: 'New Tegomin', serif;
     margin: 0 0 0.5rem 0;
-    font-weight: normal;
+    font-weight: bold;
     color: #ffd900;
   }
   
@@ -45,4 +46,5 @@
   
   .chapter-item__info h3 {
     margin: 0 2rem 0 0;
+    font-family: 'Open Sans Condensed', sans-serif;
   }

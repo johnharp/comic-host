@@ -1,13 +1,17 @@
-import userEvent from "@testing-library/user-event";
 import React from "react";
+
 import ChapterItem from "./ChapterItem";
+import Card from '../../shared/components/UIElements/Card';
+
 import "./ChapterList.css";
 
 const ChapterList = (props) => {
     if (props.items.length === 0) {
         return (
             <div className="center">
-                <h2>No chapters found.</h2>
+                <Card>
+                    <h2>No chapters found.</h2>
+                </Card>
             </div>
         )
     }
