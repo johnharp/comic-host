@@ -21,7 +21,6 @@ const ChapterItem = props => {
                     </div>
                     <div className="chapter-item__actions">
                         <Button to={`/chapter/${props.id}/edit`}>Edit</Button>
-                        <Button to={`/chapter/${props.id}/delete`} danger>Delete</Button>
                     </div>
                 </Link>
             </Card>

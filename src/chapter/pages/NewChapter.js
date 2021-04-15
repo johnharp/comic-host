@@ -6,22 +6,22 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
 } from "../../shared/util/validators";
-import { useForm } from '../../shared/hooks/form-hook';
+import { useForm } from "../../shared/hooks/form-hook";
 import "./ChapterForm.css";
 
 const NewChapter = (props) => {
   const [formState, inputHandler] = useForm(
-      {
-      title: {
-        value: '',
-        isValid: false
+    {
+      name: {
+        value: "",
+        isValid: false,
       },
-      description: {
-        value: '',
-        isValid: false
-      }},
-      false
-
+      title: {
+        value: "",
+        isValid: false,
+      },
+    },
+    false
   );
 
   const chapterSubmitHandler = (event) => {
@@ -34,26 +34,26 @@ const NewChapter = (props) => {
       <h2>Create Chapter</h2>
 
       <Input
-        id="title"
+        id="name"
         element="input"
         type="text"
-        label="Title"
+        label="Name"
         validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid title."
+        errorText="Please enter a valid name."
         onInput={inputHandler}
       />
 
       <Input
-        id="description"
+        id="title"
         element="input"
         type="textarea"
-        label="Description"
+        label="Title"
         validators={[VALIDATOR_MINLENGTH(5)]}
-        errorText="Please enter a valid description (at least 5 characters)."
+        errorText="Please enter a valid title (at least 5 characters)."
         onInput={inputHandler}
       />
       <Button type="submit" disabled={!formState.isValid}>
-          Add Chapter
+        Add Chapter
       </Button>
     </form>
   );
