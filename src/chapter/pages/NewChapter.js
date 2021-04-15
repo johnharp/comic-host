@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from "react";
+import React from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
@@ -6,63 +6,31 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
 } from "../../shared/util/validators";
-import "./NewChapter.css";
-
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case "INPUT_CHANGE":
-      let formIsValid = true;
-      for (const inputId in state.inputs) {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-      }
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid },
-        },
-        isValid: formIsValid,
-      };
-    default:
-      return state;
-  }
-};
+import { useForm } from '../../shared/hooks/form-hook';
+import "./ChapterForm.css";
 
 const NewChapter = (props) => {
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
+  const [formState, inputHandler] = useForm(
+      {
       title: {
-        value: "",
-        isValid: false,
+        value: '',
+        isValid: false
       },
       description: {
-        value: "",
-        isValid: false,
-      },
-    },
-    isValid: false,
-  });
-  // useCallback to avoid infinite loop when rep-rendering re-creates the titleInputHandler
-  const inputHandler = useCallback((id, value, isValid) => {
-    dispatch({
-      type: "INPUT_CHANGE",
-      value: value,
-      isValid: isValid,
-      inputId: id,
-    });
-  }, []);
+        value: '',
+        isValid: false
+      }},
+      false
 
-  const placeSubmitHandler = (event) => {
+  );
+
+  const chapterSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs);
   };
 
   return (
-    <form className="chapter-form" onSubmit={placeSubmitHandler}>
+    <form className="chapter-form" onSubmit={chapterSubmitHandler}>
       <h2>Create Chapter</h2>
 
       <Input
