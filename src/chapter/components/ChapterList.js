@@ -17,6 +17,8 @@ const ChapterList = (props) => {
     }
 
     return (
+        <React.Fragment>
+        <h1 className='center'>Chapters</h1>
         <ul className="chapter-list">
             {props.items.map((chapter) => (
                 <ChapterItem
@@ -28,6 +30,7 @@ const ChapterList = (props) => {
                     />
             ))}
         </ul>
+        </React.Fragment>
     )
 };
 
