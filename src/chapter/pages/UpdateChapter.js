@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-import Input from '../../shared/components/FormElements/Input';
-import Button from '../../shared/components/FormElements/Button';
+import Input from "../../shared/components/FormElements/Input";
+import Button from "../../shared/components/FormElements/Button";
+import Card from "../../shared/components/UIElements/Card";
 import {
   VALIDATOR_REQUIRE,
-  VALIDATOR_MINLENGTH
-} from '../../shared/util/validators';
-import { useForm } from '../../shared/hooks/form-hook';
-import './ChapterForm.css';
+  VALIDATOR_MINLENGTH,
+} from "../../shared/util/validators";
+import { useForm } from "../../shared/hooks/form-hook";
+import "./ChapterForm.css";
 
 const CHAPTERS = [
-    {
-        id: "1",
-        name: "Chapter 1",
-        title: "Agatha Heterodyne and the Beetleburg Clank",
-        image: "https://www.girlgeniusonline.com/books/1.jpg"
-    },
-    {
-        id: "2",
-        name: "Chapter 2",
-        title: "Agatha Heterodyne and the Airship City",
-        image: "https://www.girlgeniusonline.com/books/2.jpg"
-    },
-    {
-        id: "3",
-        name: "Chapter 3",
-        title: "Agatha Heterodyne and the Monster Engine",
-        image: "https://www.girlgeniusonline.com/books/3.jpg"
-    }
+  {
+    id: "1",
+    name: "Chapter 1",
+    title: "Agatha Heterodyne and the Beetleburg Clank",
+    image: "https://www.girlgeniusonline.com/books/1.jpg",
+  },
+  {
+    id: "2",
+    name: "Chapter 2",
+    title: "Agatha Heterodyne and the Airship City",
+    image: "https://www.girlgeniusonline.com/books/2.jpg",
+  },
+  {
+    id: "3",
+    name: "Chapter 3",
+    title: "Agatha Heterodyne and the Monster Engine",
+    image: "https://www.girlgeniusonline.com/books/3.jpg",
+  },
 ];
 
 const UpdateChapter = () => {
@@ -38,37 +39,40 @@ const UpdateChapter = () => {
   const [formState, inputHandler, setFormData] = useForm(
     {
       name: {
-        value: '',
-        isValid: false
+        value: "",
+        isValid: false,
       },
       title: {
-        value: '',
-        isValid: false
-      }
+        value: "",
+        isValid: false,
+      },
     },
     false
   );
 
-  const identifiedChapter = CHAPTERS.find(p => p.id === chapterId);
+  const identifiedChapter = CHAPTERS.find((p) => p.id === chapterId);
 
   useEffect(() => {
-    setFormData(
-      {
-        name: {
-          value: identifiedChapter.name,
-          isValid: true
+    if (identifiedChapter) {
+      setFormData(
+        {
+          name: {
+            value: identifiedChapter.name,
+            isValid: true,
+          },
+          title: {
+            value: identifiedChapter.title,
+            isValid: true,
+          },
         },
-        title: {
-          value: identifiedChapter.title,
-          isValid: true
-        }
-      },
-      true
-    );
+        true
+      );
+    }
+
     setIsLoading(false);
   }, [setFormData, identifiedChapter]);
 
-  const chapterUpdateSubmitHandler = event => {
+  const chapterUpdateSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs);
   };
@@ -76,7 +80,9 @@ const UpdateChapter = () => {
   if (!identifiedChapter) {
     return (
       <div className="center">
-        <h2>Could not find chapter!</h2>
+        <Card>
+          <h2>Could not find chapter!</h2>
+        </Card>
       </div>
     );
   }

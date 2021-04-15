@@ -22,10 +22,10 @@ const App = () => {
           <Route path="/chapter/new" exact>
             <NewChapter />
           </Route>
-          <Route path="/chapter/:chapterId/Edit">
+          <Route path="/chapter/:chapterId/edit">
             <UpdateChapter />
           </Route>
-          <Route path="/:chapterId/strips" exact>
+          <Route path="/chapter/:chapterId/strips" exact>
             <ChapterStrips />
           </Route>
           <Route path="/strip/:stripId" exact>

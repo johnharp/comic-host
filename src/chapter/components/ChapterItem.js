@@ -10,7 +10,7 @@ const ChapterItem = props => {
     return (
         <li className="chapter-item">
             <Card className="chapter-item__content">
-                <Link to={`/${props.id}/strips`}>
+                <Link to={`/chapter/${props.id}/strips`}>
                     <div className="chapter-item__image">
                         <Avatar image={props.image} alt={props.name} />
                     </div>
