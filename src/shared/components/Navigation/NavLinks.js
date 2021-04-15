@@ -10,7 +10,7 @@ const NavLinks = (props) => {
         <NavLink to="/" exact>Chapters</NavLink>
       </li>
       <li>
-        <NavLink to="/chapters/new">Add Chapter</NavLink>
+        <NavLink to="/chapter/new">Add Chapter</NavLink>
       </li>
       <li>
         <NavLink to="/auth">Author Login</NavLink>

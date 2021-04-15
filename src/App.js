@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Chapters from "./chapter/pages/Chapters";
+import NewChapter from "./chapter/pages/NewChapter";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import ChapterStrips from "./strips/pages/ChapterStrips";
 import Strip from "./strips/pages/Strip";
@@ -16,6 +17,9 @@ const App = () => {
         <Switch>
           <Route path="/" exact>
             <Chapters />
+          </Route>
+          <Route path="/chapter/new" exact>
+            <NewChapter />
           </Route>
           <Route path="/:chapterId/strips" exact>
             <ChapterStrips />
