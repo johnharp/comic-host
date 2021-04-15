@@ -23,7 +23,7 @@ const formReducer = (state, action) => {
         ...state,
         inputs: {
           ...state.inputs,
-          [action.inputId]: { value: action.valid, isValid: action.isValid },
+          [action.inputId]: { value: action.value, isValid: action.isValid },
         },
         isValid: formIsValid,
       };
@@ -56,8 +56,13 @@ const NewChapter = (props) => {
     });
   }, []);
 
+  const placeSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log(formState.inputs);
+  };
+
   return (
-    <form className="chapter-form">
+    <form className="chapter-form" onSubmit={placeSubmitHandler}>
       <h2>Create Chapter</h2>
 
       <Input
