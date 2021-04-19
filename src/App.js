@@ -1,5 +1,10 @@
 import React, { useState, useCallback } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 import Auth from "./user/pages/Auth";
 import Chapters from "./chapter/pages/Chapters";
@@ -22,6 +27,49 @@ const App = () => {
     setIsLoggedIn(false);
   }, []);
 
+  let routes;
+
+  if (isLoggedIn) {
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+          <Chapters />
+        </Route>
+        <Route path="/chapter/:chapterId/strips" exact>
+          <ChapterStrips />
+        </Route>
+        <Route path="/strip/:stripId" exact>
+          <Strip />
+        </Route>
+        <Route path="/chapter/new" exact>
+          <NewChapter />
+        </Route>
+        <Route path="/chapter/:chapterId/edit">
+          <UpdateChapter />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
+  } else {
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+          <Chapters />
+        </Route>
+        <Route path="/chapter/:chapterId/strips" exact>
+          <ChapterStrips />
+        </Route>
+        <Route path="/strip/:stripId" exact>
+          <Strip />
+        </Route>
+        <Route path="/auth" exact>
+          <Auth />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
+  }
+
   return (
     <AuthContext.Provider
       value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
@@ -29,27 +77,7 @@ const App = () => {
       <Router>
         <MainNavigation siteName="Silverstar" />
         <main>
-          <Switch>
-            <Route path="/" exact>
-              <Chapters />
-            </Route>
-            <Route path="/auth" exact>
-              <Auth />
-            </Route>
-            <Route path="/chapter/new" exact>
-              <NewChapter />
-            </Route>
-            <Route path="/chapter/:chapterId/edit">
-              <UpdateChapter />
-            </Route>
-            <Route path="/chapter/:chapterId/strips" exact>
-              <ChapterStrips />
-            </Route>
-            <Route path="/strip/:stripId" exact>
-              <Strip />
-            </Route>
-            <Redirect to="/" />
-          </Switch>
+          {routes}
         </main>
       </Router>
     </AuthContext.Provider>

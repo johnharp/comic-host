@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useParams } from "react-router-dom";
 
+import { AuthContext } from "../../shared/context/auth-context";
 import StripList from "../components/StripList";
 import Button from "../../shared/components/FormElements/Button";
 
@@ -26,14 +27,16 @@ var DUMMY_STRIPS = [
 ];
 
 const ChapterStrips = () => {
+  const auth = useContext(AuthContext);
+
   const chapterId = parseInt(useParams().chapterId);
   const loadedStrips = DUMMY_STRIPS.filter((s) => s.chapterId === chapterId);
   console.log(loadedStrips);
   return (
     <React.Fragment>
-      <div className="center">
+      {auth.isLoggedIn && <div className="center">
         <Button to={`/chapter/${chapterId}/edit`}>Edit Chapter</Button>
-      </div>
+      </div>}
       <StripList items={loadedStrips} />
     </React.Fragment>
   );
