@@ -1,12 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const chapterRoutes = require('./routes/chapter-routes.js');
-//const stripsRoutes = require('./routes/strips-routes.js');
+const chaptersRoutes = require('./routes/chapters-routes.js');
+const stripsRoutes = require('./routes/strips-routes.js');
 
 const app = express();
-app.use(chapterRoutes);
-
+app.use('/api/chapters', chaptersRoutes);
+app.use('/api/strips', stripsRoutes);
 
 
 
