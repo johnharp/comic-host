@@ -6,5 +6,6 @@ const stripsControllers = require('../controllers/strips-controller');
 
 
 router.get('/:stripId', stripsControllers.getStripById);
+router.post("/", stripsControllers.createStrip);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const HttpError = require('../models/http-error');
+const { v4: uuidv4 }  = require('uuid');
 
 const DUMMY_CHAPTERS = [
     {
@@ -35,4 +36,18 @@ const DUMMY_CHAPTERS = [
     res.json({ chapter: chapter });
   };
 
+  const createChapter = (req, res, next) => {
+    const { name, title } = req.body;
+    const createdChapter = {
+        id: uuidv4(),
+        name,
+        title
+    };
+
+    DUMMY_CHAPTERS.push(createdChapter);
+
+    res.status(201).json({chapter: createdChapter});
+  };
+
   exports.getChapterById = getChapterById;
+  exports.createChapter = createChapter;

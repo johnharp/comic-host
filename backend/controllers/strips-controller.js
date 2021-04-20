@@ -20,4 +20,9 @@ const getStripById = (req, res, next) => {
     res.json({strip: strip});
 };
 
+const createStrip = (req, res, next) => {
+
+};
+
 exports.getStripById = getStripById;
+exports.createStrip = createStrip;

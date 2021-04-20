@@ -5,6 +5,9 @@ const chaptersRoutes = require('./routes/chapters-routes.js');
 const stripsRoutes = require('./routes/strips-routes.js');
 
 const app = express();
+
+app.use(bodyParser.json());
+
 app.use('/api/chapters', chaptersRoutes);
 app.use('/api/strips', stripsRoutes);
 
