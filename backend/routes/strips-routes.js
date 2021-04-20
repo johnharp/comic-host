@@ -14,6 +14,12 @@ router.get('/:stripId', (req, res, next) => {
         return s.id === stripId
     });
 
+    if (!strip) {
+        return res
+          .status(404)
+          .json({ message: "Could not find a strip with the given ID." });
+      }
+
     res.json({strip: strip});
 });
 
