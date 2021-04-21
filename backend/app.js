@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const chaptersRoutes = require('./routes/chapters-routes.js');
 const stripsRoutes = require('./routes/strips-routes.js');
+const HttpError = require('./models/http-error');
 
 const app = express();
 
@@ -10,6 +11,10 @@ app.use(bodyParser.json());
 
 app.use('/api/chapters', chaptersRoutes);
 app.use('/api/strips', stripsRoutes);
+app.use((req, res, next) => {
+    const error = new HttpError('Could not find this route', 404);
+    throw error;
+});
 
 app.use((error, req, res, next) => {
     if (res.headerSent) {

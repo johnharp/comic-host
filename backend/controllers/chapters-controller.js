@@ -1,7 +1,7 @@
 const HttpError = require('../models/http-error');
 const { v4: uuidv4 }  = require('uuid');
 
-const DUMMY_CHAPTERS = [
+let DUMMY_CHAPTERS = [
     {
       id: "c1",
       name: "Chapter 1",
@@ -49,5 +49,32 @@ const DUMMY_CHAPTERS = [
     res.status(201).json({chapter: createdChapter});
   };
 
+  const updateChapter = (req, res, next) => {
+    const { name, title } = req.body;
+    const chapterId = req.params.chapterId;
+    const foundChapter = DUMMY_CHAPTERS.find((c) => {
+      return c.id === chapterId;
+    });
+    const foundChapterIndex = DUMMY_CHAPTERS.findIndex(c => c.id == chapterId);
+    const updatedChapter = {
+      ...foundChapter
+    };
+    updatedChapter.name = name;
+    updatedChapter.title = title;
+
+    DUMMY_CHAPTERS[foundChapterIndex] = updatedChapter;
+    res.status(200).json({chapter: updatedChapter});
+  };
+
+  const deleteChapter = (req, res, next) => {
+    const chapterId = req.params.chapterId;
+    DUMMY_CHAPTERS = DUMMY_CHAPTERS.filter(c => c.id != chapterId);
+
+    res.status(200).json({message: 'Deleted chapter'});
+  };
+
+
   exports.getChapterById = getChapterById;
   exports.createChapter = createChapter;
+  exports.updateChapter = updateChapter;
+  exports.deleteChapter = deleteChapter;
