@@ -1,5 +1,6 @@
 const HttpError = require('../models/http-error');
 const { v4: uuidv4 }  = require('uuid');
+const { validationResult } = require('express-validator');
 
 let DUMMY_CHAPTERS = [
     {
@@ -37,6 +38,11 @@ let DUMMY_CHAPTERS = [
   };
 
   const createChapter = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new HttpError('Invalid data in call', 422);
+    }
+
     const { name, title } = req.body;
     const createdChapter = {
         id: uuidv4(),
@@ -50,11 +56,20 @@ let DUMMY_CHAPTERS = [
   };
 
   const updateChapter = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new HttpError('Invalid data in call', 422);
+    }
+
     const { name, title } = req.body;
     const chapterId = req.params.chapterId;
     const foundChapter = DUMMY_CHAPTERS.find((c) => {
       return c.id === chapterId;
     });
+
+    if (!foundChapter) { 
+      throw new HttpError('Chapter not found with given ID', 404);
+    }
     const foundChapterIndex = DUMMY_CHAPTERS.findIndex(c => c.id == chapterId);
     const updatedChapter = {
       ...foundChapter
