@@ -1,14 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const chaptersRoutes = require('./routes/chapters-routes.js');
-const stripsRoutes = require('./routes/strips-routes.js');
+const usersRoutes = require('./routes/users-routes');
+const chaptersRoutes = require('./routes/chapters-routes');
+const stripsRoutes = require('./routes/strips-routes');
 const HttpError = require('./models/http-error');
 
 const app = express();
 
 app.use(bodyParser.json());
 
+app.use('/api/users', usersRoutes);
 app.use('/api/chapters', chaptersRoutes);
 app.use('/api/strips', stripsRoutes);
 app.use((req, res, next) => {
