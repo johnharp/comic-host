@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/:chapterId", chaptersControllers.getChapterById);
 router.post(
   "/",
-  [check("name").not().isEmpty(), check("title").isLength({ min: 5 })],
+  [check("number").not().isEmpty(), check("title").isLength({ min: 5 })],
   chaptersControllers.createChapter
 );
 router.patch(
