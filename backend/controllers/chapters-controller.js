@@ -24,11 +24,19 @@ let DUMMY_CHAPTERS = [
   },
 ];
 
-const getChapterById = (req, res, next) => {
+const getChapterById = async (req, res, next) => {
   const chapterId = req.params.chapterId;
-  const chapter = DUMMY_CHAPTERS.find((c) => {
-    return c.id === chapterId;
-  });
+  let chapter;
+
+  try {
+    chapter = await Chapter.findById(chapterId);
+  } catch (err) {
+    const error = new HttpError(
+      "Could not find chapter with ID " + chapterId,
+      500
+    );
+    return next(error);
+  }
 
   if (!chapter) {
     const error = new HttpError(
@@ -38,7 +46,27 @@ const getChapterById = (req, res, next) => {
     return next(error);
   }
 
-  res.json({ chapter: chapter });
+  res.json({ chapter: chapter.toObject({ getters: true }) });
+};
+
+const getChapters = async (req, res, next) => {
+  let chapters;
+
+  try {
+    chapters = await Chapter.find();
+  } catch (err) {
+    const error = new HttpError("Fetching chapters failed", 500);
+    return next(error);
+  }
+
+  if (!chapters || chapters.length === 0) {
+    const error = new HttpError("Found no chapters", 404);
+    return next(error);
+  }
+
+  res.json({
+    chapters: chapters.map((chapter) => chapter.toObject({ getters: true })),
+  });
 };
 
 const createChapter = async (req, res, next) => {
@@ -64,30 +92,41 @@ const createChapter = async (req, res, next) => {
   res.status(201).json({ chapter: createdChapter });
 };
 
-const updateChapter = (req, res, next) => {
+const updateChapter = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     throw new HttpError("Invalid data in call", 422);
   }
 
-  const { name, title } = req.body;
+  const { number, title } = req.body;
   const chapterId = req.params.chapterId;
-  const foundChapter = DUMMY_CHAPTERS.find((c) => {
-    return c.id === chapterId;
-  });
 
-  if (!foundChapter) {
+  let chapter;
+
+  try {
+    chapter = await Chapter.findById(chapterId);
+  } catch (err) {
+    const error = new HttpError(
+      "Could not find chapter with ID " + chapterId,
+      500
+    );
+    return next(error);
+  }
+
+  if (!chapter) {
     throw new HttpError("Chapter not found with given ID", 404);
   }
-  const foundChapterIndex = DUMMY_CHAPTERS.findIndex((c) => c.id == chapterId);
-  const updatedChapter = {
-    ...foundChapter,
-  };
-  updatedChapter.name = name;
-  updatedChapter.title = title;
 
-  DUMMY_CHAPTERS[foundChapterIndex] = updatedChapter;
-  res.status(200).json({ chapter: updatedChapter });
+  chapter.number = number;
+  chapter.title = title;
+
+  try {
+    await chapter.save();
+  } catch (err) {
+    const error = new HttpError('Could not update chapter', 500);
+    return next(error);
+  }
+  res.status(200).json({ chapter: chapter.toObject({getters: true}) });
 };
 
 const deleteChapter = (req, res, next) => {
@@ -98,6 +137,7 @@ const deleteChapter = (req, res, next) => {
 };
 
 exports.getChapterById = getChapterById;
+exports.getChapters = getChapters;
 exports.createChapter = createChapter;
 exports.updateChapter = updateChapter;
 exports.deleteChapter = deleteChapter;

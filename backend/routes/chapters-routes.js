@@ -5,6 +5,7 @@ const chaptersControllers = require("../controllers/chapters-controller");
 const router = express.Router();
 
 router.get("/:chapterId", chaptersControllers.getChapterById);
+router.get("/", chaptersControllers.getChapters);
 router.post(
   "/",
   [check("number").not().isEmpty(), check("title").isLength({ min: 5 })],
@@ -12,7 +13,7 @@ router.post(
 );
 router.patch(
   "/:chapterId",
-  [check("name").not().isEmpty(), check("title").isLength({ min: 5 })],
+  [check("number").not().isEmpty(), check("title").isLength({ min: 5 })],
   chaptersControllers.updateChapter
 );
 router.delete("/:chapterId", chaptersControllers.deleteChapter);
