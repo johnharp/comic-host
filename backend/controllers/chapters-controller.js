@@ -129,9 +129,32 @@ const updateChapter = async (req, res, next) => {
   res.status(200).json({ chapter: chapter.toObject({getters: true}) });
 };
 
-const deleteChapter = (req, res, next) => {
+const deleteChapter = async (req, res, next) => {
   const chapterId = req.params.chapterId;
-  DUMMY_CHAPTERS = DUMMY_CHAPTERS.filter((c) => c.id != chapterId);
+  let chapter;
+  try {
+    chapter = await Chapter.findById(chapterId);
+  } catch (err) {
+    const error = new HttpError(
+      "Could not find chapter with ID " + chapterId,
+      500
+    );
+    return next(error);
+  }
+
+  if (!chapter) {
+    throw new HttpError("Chapter not found with given ID", 404);
+  }
+
+  try {
+    await chapter.remove();
+  } catch (err) {
+    const error = new HttpError(
+      "Could not delete chapter",
+      500
+    );
+    return next(error);
+  }
 
   res.status(200).json({ message: "Deleted chapter" });
 };
