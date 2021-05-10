@@ -123,10 +123,10 @@ const updateChapter = async (req, res, next) => {
   try {
     await chapter.save();
   } catch (err) {
-    const error = new HttpError('Could not update chapter', 500);
+    const error = new HttpError("Could not update chapter", 500);
     return next(error);
   }
-  res.status(200).json({ chapter: chapter.toObject({getters: true}) });
+  res.status(200).json({ chapter: chapter.toObject({ getters: true }) });
 };
 
 const deleteChapter = async (req, res, next) => {
@@ -143,16 +143,17 @@ const deleteChapter = async (req, res, next) => {
   }
 
   if (!chapter) {
-    throw new HttpError("Chapter not found with given ID", 404);
+    const error = new HttpError(
+      "Chapter not found with given ID " + chapterId,
+      404
+    );
+    return next(error);
   }
 
   try {
     await chapter.remove();
   } catch (err) {
-    const error = new HttpError(
-      "Could not delete chapter",
-      500
-    );
+    const error = new HttpError("Could not delete chapter", 500);
     return next(error);
   }
 

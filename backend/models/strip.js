@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 
-const chapterSchema = new Schema({
+const stripSchema = new Schema({
     number: { type: Number, required: true, unique: true },
-    title: { type: String, required: true },
     image: { type: String, required: false }
 });
 
-module.exports = mongoose.model('Chapter', chapterSchema);
+module.exports = mongoose.model('Strip', stripSchema);
