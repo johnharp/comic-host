@@ -59,6 +59,7 @@ const createChapter = async (req, res, next) => {
     number,
     title,
     image: "https://www.girlgeniusonline.com/books/1.jpg",
+    strips: []
   });
 
   try {
