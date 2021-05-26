@@ -8,18 +8,16 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 import {
   VALIDATOR_EMAIL,
-  VALIDATOR_MINLENGTH
+  VALIDATOR_MINLENGTH,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import "./Auth.css";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
@@ -34,44 +32,30 @@ const Auth = () => {
     false
   );
 
-
-
   const authSubmitHandler = async (event) => {
     event.preventDefault();
 
-    setIsLoading(true);
-
-    try{
-      const response = await fetch('http://localhost:5000/api/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+    try {
+      await sendRequest(
+        "http://localhost:5000/api/users/login",
+        "POST",
+        JSON.stringify({
           email: formState.inputs.email.value,
-          password: formState.inputs.password.value
-        })
-      });
-
-      const responseData = await response.json();
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-      setIsLoading(false);
+          password: formState.inputs.password.value,
+        }),
+        {
+          "Content-Type": "application/json",
+        }
+      );
       auth.login();
-    }catch(err) {
-      setIsLoading(false);
-      setError(err.message || 'Error logging in');
-    }
-  };
+    } catch (err) {
 
-  const errorHandler = () => {
-    setError(null);
+    }
   };
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={errorHandler} />
+      <ErrorModal error={error} onClear={clearError} />
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login Required</h2>
