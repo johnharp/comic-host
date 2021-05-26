@@ -17,6 +17,8 @@ const ChapterItem = props => {
                     <div className="chapter-item__info">
                         <h2>{props.name}</h2>
                         <h3>{props.title}</h3>
+                        <br />
+                        {props.stripCount} pages
                     </div>
                 </Link>
             </Card>

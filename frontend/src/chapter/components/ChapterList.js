@@ -27,6 +27,7 @@ const ChapterList = (props) => {
                     image={chapter.image}
                     name={chapter.name}
                     title={chapter.title}
+                    stripCount={chapter.strips.length}
                     />
             ))}
         </ul>
