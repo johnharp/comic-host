@@ -3,40 +3,29 @@ import ChapterList from "../components/ChapterList";
 
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { useHttpClient } from '../../shared/hooks/http-hook';
 
 const Chapters = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const { isLoading, error, sendRequest, clearError} = useHttpClient();
   const [loadedChapters, setLoadedChapters] = useState();
 
   // run only once
   useEffect(() => {
-    const sendRequest = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch("http://localhost:5000/api/chapters");
-        const responseData = await response.json();
+    const fetchChapters = async () => {
 
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
+      try {
+        const responseData = await sendRequest('http://localhost:5000/api/chapters');
+      
         setLoadedChapters(responseData.chapters);
       } catch (err) {
-        setError(err.message);
       }
-
-      setIsLoading(false);
     };
-    sendRequest();
-  }, []);
-
-  const errorHandler = () => {
-    setError(null);
-  };
+    fetchChapters();
+  }, [sendRequest]);
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={errorHandler} />
+      <ErrorModal error={error} onClear={clearError} />
       {isLoading && (
         <div className="center">
           <LoadingSpinner />
