@@ -15,7 +15,7 @@ const ChapterItem = props => {
                         <Avatar image={props.image} alt={props.name} />
                     </div>
                     <div className="chapter-item__info">
-                        <h2>{props.name}</h2>
+                        <h2>Chapter {props.number}</h2>
                         <h3>{props.title}</h3>
                         <br />
                         {props.stripCount} pages

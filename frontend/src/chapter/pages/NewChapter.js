@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from 'react-router-dom';
 
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
@@ -22,10 +23,6 @@ const NewChapter = (props) => {
         value: "",
         isValid: false,
       },
-      name: {
-        value: "",
-        isValid: false,
-      },
       title: {
         value: "",
         isValid: false,
@@ -33,6 +30,8 @@ const NewChapter = (props) => {
     },
     false
   );
+
+  const history = useHistory();
 
   const chapterSubmitHandler = async (event) => {
     event.preventDefault();
@@ -47,7 +46,7 @@ const NewChapter = (props) => {
         }),
         { 'Content-Type': 'application/json' }
       );
-      // redirect
+      history.push('/');
     } catch (err) {}
   };
 
@@ -65,16 +64,6 @@ const NewChapter = (props) => {
           label="Number"
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid chapter number."
-          onInput={inputHandler}
-        />
-
-        <Input
-          id="name"
-          element="input"
-          type="text"
-          label="Name"
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid name."
           onInput={inputHandler}
         />
 

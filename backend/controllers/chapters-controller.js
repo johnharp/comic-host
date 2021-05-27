@@ -32,7 +32,7 @@ const getChapters = async (req, res, next) => {
   let chapters;
 
   try {
-    chapters = await Chapter.find();
+    chapters = await Chapter.find().sort({ number: 'asc'});
   } catch (err) {
     const error = new HttpError("Fetching chapters failed", 500);
     return next(error);
