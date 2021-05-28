@@ -29,7 +29,7 @@ var DUMMY_STRIPS = [
 const ChapterStrips = () => {
   const auth = useContext(AuthContext);
 
-  const chapterId = parseInt(useParams().chapterId);
+  const chapterId = useParams().chapterId;
   const loadedStrips = DUMMY_STRIPS.filter((s) => s.chapterId === chapterId);
   console.log(loadedStrips);
   return (
@@ -38,6 +38,10 @@ const ChapterStrips = () => {
         <Button to={`/chapter/${chapterId}/edit`}>Edit Chapter</Button>
       </div>}
       <StripList items={loadedStrips} />
+
+      {auth.isLoggedIn && <div className="center">
+        <Button to={`/chapter/${chapterId}/newstrip`}>Add new Page</Button>
+      </div>}
     </React.Fragment>
   );
 };

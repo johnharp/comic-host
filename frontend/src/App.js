@@ -12,6 +12,7 @@ import NewChapter from "./chapter/pages/NewChapter";
 import UpdateChapter from "./chapter/pages/UpdateChapter";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import ChapterStrips from "./strips/pages/ChapterStrips";
+import ChapterNewStrip from "./chapter/pages/ChapterNewStrip";
 import Strip from "./strips/pages/Strip";
 import { AuthContext } from "./shared/context/auth-context";
 import "./App.css";
@@ -37,6 +38,9 @@ const App = () => {
         </Route>
         <Route path="/chapter/:chapterId/strips" exact>
           <ChapterStrips />
+        </Route>
+        <Route path="/chapter/:chapterId/newstrip" exact>
+          <ChapterNewStrip />
         </Route>
         <Route path="/strip/:stripId" exact>
           <Strip />

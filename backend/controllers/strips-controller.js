@@ -73,10 +73,11 @@ const createStrip = async (req, res, next) => {
         );
     }
 
-    const {number, chapter} = req.body;
+    const {number, caption, chapter} = req.body;
 
     const createdStrip = new Strip({
         number,
+        caption,
         image: 'https://www.girlgeniusonline.com/ggmain/strips/ggmain20021104.jpg',
         chapter
     });
