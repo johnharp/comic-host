@@ -1,43 +1,45 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 
 import { AuthContext } from "../../shared/context/auth-context";
 import StripList from "../components/StripList";
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+
 import Button from "../../shared/components/FormElements/Button";
 
-var DUMMY_STRIPS = [
-  {
-    id: 1,
-    chapterId: 1,
-    imageUrl:
-      "http://www.girlgeniusonline.com/ggmain/strips/ggmain20021104.jpg",
-  },
-  {
-    id: 2,
-    chapterId: 1,
-    imageUrl:
-      "http://www.girlgeniusonline.com/ggmain/strips/ggmain20021106.jpg",
-  },
-  {
-    id: 3,
-    chapterId: 2,
-    imageUrl:
-      "http://www.girlgeniusonline.com/ggmain/strips/ggmain20021108.jpg",
-  },
-];
 
 const ChapterStrips = () => {
+  const { loadedStrips, setLoadedStrips } = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
-
   const chapterId = useParams().chapterId;
-  const loadedStrips = DUMMY_STRIPS.filter((s) => s.chapterId === chapterId);
+
+  useEffect(() => {
+    const fetchStrips = async () => {
+      try {
+        const responseData = await sendRequest(`http:localhost:5000/api/strips/chapter/${chapterId}`);
+        setLoadedStrips(responseData.strips);
+      } catch(err) {
+
+      }
+    };
+    fetchStrips();
+  }, [sendRequest, chapterId]);
+
   console.log(loadedStrips);
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <div className="center">
+        <LoadingSpinner />
+      </div>}
       {auth.isLoggedIn && <div className="center">
         <Button to={`/chapter/${chapterId}/edit`}>Edit Chapter</Button>
       </div>}
-      <StripList items={loadedStrips} />
+
+      {!isLoading && loadedStrips && <StripList items={loadedStrips} />}
 
       {auth.isLoggedIn && <div className="center">
         <Button to={`/chapter/${chapterId}/newstrip`}>Add new Page</Button>
