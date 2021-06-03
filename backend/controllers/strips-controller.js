@@ -33,7 +33,6 @@ const getStripById = async (req, res, next) => {
 };
 
 const getStripsByChapterId = async (req, res, next) => {
-    console.log('in "getStripsByChapterId"');
     const chapterId = req.params.chapterId;
 
     let chapterWithStrips;

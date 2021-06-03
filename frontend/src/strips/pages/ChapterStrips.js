@@ -11,7 +11,7 @@ import Button from "../../shared/components/FormElements/Button";
 
 
 const ChapterStrips = () => {
-  const { loadedStrips, setLoadedStrips } = useState();
+  const [ loadedStrips, setLoadedStrips ] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const chapterId = useParams().chapterId;
@@ -30,6 +30,7 @@ const ChapterStrips = () => {
 
   return (
     <React.Fragment>
+
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <div className="center">
         <LoadingSpinner />

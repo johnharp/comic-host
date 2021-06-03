@@ -10,7 +10,7 @@ const StripItem = props => {
             <Card className="strip-item__content">
                 <Link to={`/strip/${props.id}`}>
                     <div className="strip-item__info">
-                        <h2>{props.id}</h2>
+                        <h2>#{props.number}</h2>
                         <h3>more info....</h3>
                     </div>
                 </Link>
