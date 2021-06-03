@@ -5,11 +5,6 @@ const HttpError = require('../models/http-error');
 const Strip = require('../models/strip');
 const Chapter = require('../models/chapter');
 
-const DUMMY_STRIPS = [
-    { id: 's1', imageUrl: 'https://www.girlgeniusonline.com/ggmain/strips/ggmain20021104.jpg'},
-    { id: 's2', imageUrl: 'https://www.girlgeniusonline.com/ggmain/strips/ggmain20021106.jpg'},
-    { id: 's3', imageUrl: 'https://www.girlgeniusonline.com/ggmain/strips/ggmain20021108.jpg'}
-];
 
 const getStripById = async (req, res, next) => {
     const stripId = req.params.stripId;
@@ -38,6 +33,7 @@ const getStripById = async (req, res, next) => {
 };
 
 const getStripsByChapterId = async (req, res, next) => {
+    console.log('in "getStripsByChapterId"');
     const chapterId = req.params.chapterId;
 
     let chapterWithStrips;
@@ -58,7 +54,7 @@ const getStripsByChapterId = async (req, res, next) => {
         );
     }
 
-    req.json({
+    res.json({
         strips: chapterWithStrips.strips.map(strip =>
             strip.toObject({ getters: true })
         )

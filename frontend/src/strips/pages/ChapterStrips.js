@@ -19,7 +19,7 @@ const ChapterStrips = () => {
   useEffect(() => {
     const fetchStrips = async () => {
       try {
-        const responseData = await sendRequest(`http:localhost:5000/api/strips/chapter/${chapterId}`);
+        const responseData = await sendRequest(`http://localhost:5000/api/strips/chapter/${chapterId}`);
         setLoadedStrips(responseData.strips);
       } catch(err) {
 
@@ -28,7 +28,6 @@ const ChapterStrips = () => {
     fetchStrips();
   }, [sendRequest, chapterId]);
 
-  console.log(loadedStrips);
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />

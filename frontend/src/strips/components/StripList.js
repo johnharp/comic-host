@@ -19,7 +19,7 @@ const StripList = (props) => {
   return (
     <ul className="strip-list">
       {props.items.map((strip) => (
-        <StripItem key={strip.id} id={strip.id} image={strip.imageUrl} />
+        <StripItem key={strip.id} id={strip.id} number={strip.number} image={strip.image} />
       ))}
     </ul>
   );

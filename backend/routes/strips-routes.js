@@ -2,10 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
-const stripsControllers = require('../controllers/strips-controller');
+const stripsController = require('../controllers/strips-controller');
 
-
-router.get('/:stripId', stripsControllers.getStripById);
-router.post("/", stripsControllers.createStrip);
+router.get('/chapter/:chapterId', stripsController.getStripsByChapterId);
+router.get('/:stripId', stripsController.getStripById);
+router.post("/", stripsController.createStrip);
 
 module.exports = router;
