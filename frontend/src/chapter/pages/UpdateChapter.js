@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
 import Card from "../../shared/components/UIElements/Card";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import "./ChapterForm.css";
 
 const CHAPTERS = [
@@ -34,6 +37,8 @@ const CHAPTERS = [
 ];
 
 const UpdateChapter = () => {
+  const {isLoading, error, sendRequest, clearError } = useHttpClient();
+
   const [showConfirmModel, setShowConfirmModal] = useState(false);
   const showDeleteWarningHandler = () => {
     setShowConfirmModal(true);
@@ -46,12 +51,14 @@ const UpdateChapter = () => {
     console.log("deleting...");
   };
 
-  const [isLoading, setIsLoading] = useState(true);
   const chapterId = useParams().chapterId;
+  const history = useHistory();
+
+  const [loadedChapter, setLoadedChapter] = useState();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
-      name: {
+      number: {
         value: "",
         isValid: false,
       },
@@ -63,34 +70,61 @@ const UpdateChapter = () => {
     false
   );
 
-  const identifiedChapter = CHAPTERS.find((p) => p.id === chapterId);
-
   useEffect(() => {
-    if (identifiedChapter) {
-      setFormData(
-        {
-          name: {
-            value: identifiedChapter.name,
-            isValid: true,
+    const fetchChapter = async() => {
+      try {
+        const responseData = await sendRequest(`http://localhost:5000/api/chapters/${chapterId}`);
+        setLoadedChapter(responseData.chapter);
+        setFormData(
+          {
+            name: {
+              value: responseData.chapter.name,
+              isValid: true,
+            },
+            title: {
+              value: responseData.chapter.title,
+              isValid: true,
+            },
           },
-          title: {
-            value: identifiedChapter.title,
-            isValid: true,
-          },
-        },
-        true
-      );
-    }
+          true
+        );
+      } catch(err) {
 
-    setIsLoading(false);
-  }, [setFormData, identifiedChapter]);
+      }
+    };
+    fetchChapter();
 
-  const chapterUpdateSubmitHandler = (event) => {
+  }, [sendRequest, chapterId, setFormData]);
+
+
+  const chapterUpdateSubmitHandler = async event => {
     event.preventDefault();
-    console.log(formState.inputs);
+    try { 
+      await sendRequest(`http://localhost:5000/api/chapters/${chapterId}`,
+        'PATCH', JSON.stringify ({
+          number: formState.inputs.number.value,
+          title: formState.inputs.title.value
+        }),
+        {
+          'Content-Type': 'application/json'
+        });
+
+        history.push('/');
+    } catch (err) {
+
+    }
   };
 
-  if (!identifiedChapter) {
+
+  if (isLoading) {
+    return (
+      <div className="center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (!loadedChapter && !error) {
     return (
       <div className="center">
         <Card>
@@ -100,24 +134,19 @@ const UpdateChapter = () => {
     );
   }
 
-  if (isLoading) {
-    return (
-      <div className="center">
-        <h2>Loading...</h2>
-      </div>
-    );
-  }
+
 
   console.log("formState.inputs: " + formState.inputs);
 
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showConfirmModel}
         onCancel={cancelDeleteWarningHandler}
         header="Are you sure?"
         conentClass="stip-display__modal-content"
-        footerClass="strip-display__mnodal-actions"
+        footerClass="strip-display__modal-actions"
         footer={
           <React.Fragment>
             <Button inverse onClick={cancelDeleteWarningHandler}>
@@ -131,17 +160,17 @@ const UpdateChapter = () => {
       >
         <p>Are you sure you want to delete this chapter? There is no undo!</p>
       </Modal>
-      <form className="chapter-form" onSubmit={chapterUpdateSubmitHandler}>
+      {!isLoading && loadedChapter && <form className="chapter-form" onSubmit={chapterUpdateSubmitHandler}>
         <Input
-          id="name"
+          id="number"
           element="input"
-          type="text"
-          label="Name"
+          type="number"
+          label="Number"
           validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid chapter name."
+          errorText="Please enter a valid chapter number."
           onInput={inputHandler}
-          initialValue={formState.inputs.name.value}
-          initialValid={formState.inputs.name.isValid}
+          initialValue={loadedChapter.number}
+          initialValid={true}
         />
         <Input
           id="title"
@@ -150,14 +179,14 @@ const UpdateChapter = () => {
           validators={[VALIDATOR_MINLENGTH(5)]}
           errorText="Please enter a valid title (min. 5 characters)."
           onInput={inputHandler}
-          initialValue={formState.inputs.title.value}
-          initialValid={formState.inputs.title.isValid}
+          initialValue={loadedChapter.title}
+          initialValid={true}
         />
         <Button type="submit" disabled={!formState.isValid}>
           Update Chapter
         </Button>
         <Button onClick={showDeleteWarningHandler}>Delete Chapter</Button>
-      </form>
+      </form>}
     </React.Fragment>
   );
 };
