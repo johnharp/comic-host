@@ -1,24 +1,33 @@
 import React from "react";
 
 import ChapterItem from "./ChapterItem";
-import Card from '../../shared/components/UIElements/Card';
-
-import "./ChapterList.css";
 
 const ChapterList = (props) => {
     if (props.items.length === 0) {
         return (
-            <div className="center">
-                <Card>
+            <div className="card">
+                <div className="card-body card-secondary">
                     <h2>No chapters found.</h2>
-                </Card>
+                </div>
             </div>
         )
     }
 
     return (
         <React.Fragment>
-        <h1 className='center'>Chapters</h1>
+
+        <div className="row">
+            {props.items.map((chapter) => (
+                    <ChapterItem
+                        key={chapter.id}
+                        id={chapter.id}
+                        image={chapter.image}
+                        number={chapter.number}
+                        title={chapter.title}
+                        stripCount={chapter.strips.length}
+                        />
+                ))}   
+        </div>
         <ul className="chapter-list">
             {props.items.map((chapter) => (
                 <ChapterItem

@@ -1,28 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {useContext} from 'react';
 
-import Avatar from '../../shared/components/UIElements/Avatar';
-import Card from '../../shared/components/UIElements/Card';
+import { AuthContext } from "../../shared/context/auth-context";
 
 import './ChapterItem.css';
 
 const ChapterItem = props => {
+    const auth = useContext(AuthContext);
+
     return (
-        <li className="chapter-item">
-            <Card className="chapter-item__content">
-                <Link to={`/chapter/${props.id}/strips`}>
-                    <div className="chapter-item__image">
-                        <Avatar image={props.image} alt={props.name} />
-                    </div>
-                    <div className="chapter-item__info">
-                        <h2>Chapter {props.number}</h2>
+        <div className="col-4">
+            <div className="card">
+                <div className="card-header bg-secondary">
+                    <h3>Chapter {props.number}</h3>
+                </div>
+                <div className="card-body">
+
+                    <a href={`/chapter/${props.id}/strips`}>
+                        <div>
+                            <img src={props.image} alt={props.name} />
+                        </div>
                         <h3>{props.title}</h3>
-                        <br />
+                    </a>
+                    <div>
                         {props.stripCount} pages
                     </div>
-                </Link>
-            </Card>
-        </li>
+                    
+                    {auth.isLoggedIn && 
+                        <a href={`/chapter/${props.id}/edit`}
+                            className="btn btn-sm btn-primary">
+                        Edit
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
     );
 };
 

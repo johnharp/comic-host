@@ -51,7 +51,11 @@ const StripItem = (props) => {
               <h3>more info....</h3>
             </div>
           </Link>
-          {auth.isLoggedIn && <Button to={`/strips/${props.id}`}>Edit</Button>}
+          {auth.isLoggedIn && (
+            <Button danger to={`/strips/${props.id}`}>
+              Edit
+            </Button>
+          )}
 
           {auth.isLoggedIn && (
             <Button danger onClick={showDeleteWarningHandler}>
