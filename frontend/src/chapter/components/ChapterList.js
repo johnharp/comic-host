@@ -28,18 +28,6 @@ const ChapterList = (props) => {
                         />
                 ))}   
         </div>
-        <ul className="chapter-list">
-            {props.items.map((chapter) => (
-                <ChapterItem
-                    key={chapter.id}
-                    id={chapter.id}
-                    image={chapter.image}
-                    number={chapter.number}
-                    title={chapter.title}
-                    stripCount={chapter.strips.length}
-                    />
-            ))}
-        </ul>
         </React.Fragment>
     )
 };

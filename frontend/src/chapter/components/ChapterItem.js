@@ -1,5 +1,7 @@
 import React, {useContext} from 'react';
+import { Link } from 'react-router-dom';
 
+import Button from "../../shared/components/FormElements/Button";
 import { AuthContext } from "../../shared/context/auth-context";
 
 import './ChapterItem.css';
@@ -15,21 +17,21 @@ const ChapterItem = props => {
                 </div>
                 <div className="card-body">
 
-                    <a href={`/chapter/${props.id}/strips`}>
+                    <Link to={`/chapter/${props.id}/strips`}>
                         <div>
                             <img src={props.image} alt={props.name} />
                         </div>
                         <h3>{props.title}</h3>
-                    </a>
+                    </Link>
                     <div>
                         {props.stripCount} pages
                     </div>
                     
                     {auth.isLoggedIn && 
-                        <a href={`/chapter/${props.id}/edit`}
+                        <Button to={`/chapter/${props.id}/edit`}
                             className="btn btn-sm btn-primary">
                         Edit
-                        </a>
+                        </Button>
                     }
                 </div>
             </div>

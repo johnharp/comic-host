@@ -7,8 +7,7 @@ const Button = props => {
   if (props.href) {
     return (
       <a
-        className={`button button--${props.size || 'default'} ${props.inverse &&
-          'button--inverse'} ${props.danger && 'button--danger'}`}
+        className={`${props.className}`}
         href={props.href}
       >
         {props.children}
@@ -20,8 +19,7 @@ const Button = props => {
       <Link
         to={props.to}
         exact={props.exact}
-        className={`button button--${props.size || 'default'} ${props.inverse &&
-          'button--inverse'} ${props.danger && 'button--danger'}`}
+        className={`${props.className}`}
       >
         {props.children}
       </Link>
@@ -29,8 +27,7 @@ const Button = props => {
   }
   return (
     <button
-      className={`button button--${props.size || 'default'} ${props.inverse &&
-        'button--inverse'} ${props.danger && 'button--danger'}`}
+      className={`${props.className}`}
       type={props.type}
       onClick={props.onClick}
       disabled={props.disabled}

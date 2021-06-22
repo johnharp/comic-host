@@ -35,9 +35,6 @@ const ChapterStrips = () => {
       {isLoading && <div className="center">
         <LoadingSpinner />
       </div>}
-      {auth.isLoggedIn && <div className="center">
-        <Button to={`/chapter/${chapterId}/edit`}>Edit Chapter</Button>
-      </div>}
 
       {!isLoading && loadedStrips && <StripList items={loadedStrips} />}
 

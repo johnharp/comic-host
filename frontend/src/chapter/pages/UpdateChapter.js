@@ -162,10 +162,11 @@ const UpdateChapter = () => {
           initialValue={loadedChapter.title}
           initialValid={true}
         />
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button type="submit" className="btn btn-sm btn-primary" disabled={!formState.isValid}>
           Update Chapter
         </Button>
-        <Button onClick={showDeleteWarningHandler}>Delete Chapter</Button>
+        <Button onClick={showDeleteWarningHandler}
+        className="btn btn-sm btn-danger">Delete Chapter</Button>
       </form>}
     </React.Fragment>
   );
