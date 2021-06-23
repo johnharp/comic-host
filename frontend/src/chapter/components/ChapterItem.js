@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Button from "../../shared/components/FormElements/Button";
 import { AuthContext } from "../../shared/context/auth-context";
 
-import "./ChapterItem.css";
 
 const ChapterItem = (props) => {
   const auth = useContext(AuthContext);
