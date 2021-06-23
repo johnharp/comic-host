@@ -43,27 +43,39 @@ const StripItem = (props) => {
       >
         <p>Do you want to delete this page? There is no undo.</p>
       </Modal>
-      <li className="strip-item">
-        <Card className="strip-item__content">
-          <Link to={`/strip/${props.id}`}>
-            <div className="strip-item__info">
-              <h2>#{props.number}</h2>
-              <h3>more info....</h3>
-            </div>
-          </Link>
-          {auth.isLoggedIn && (
-            <Button danger to={`/strips/${props.id}`}>
-              Edit
-            </Button>
-          )}
 
-          {auth.isLoggedIn && (
-            <Button danger onClick={showDeleteWarningHandler}>
-              Delete
-            </Button>
-          )}
-        </Card>
-      </li>
+      
+      <div className="card">
+        <div className="card-body">
+        <Link to={`/strip/${props.id}`}>
+          <div>
+            <h2>#{props.number}</h2>
+            <h3>more info....</h3>
+          </div>
+        </Link>
+
+        </div>
+
+        {auth.isLoggedIn && (
+          <div className="card-footer">
+            <div className="d-flex justify-content-between">
+              <Button to={`/strips/${props.id}`}
+                className="btn btn-sm btn-primary">
+                Edit
+              </Button>
+
+              {auth.isLoggedIn && (
+                <Button className="btn btn-sm btn-danger"
+                  onClick={showDeleteWarningHandler}>
+                  Delete
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
+
+
+      </div>
     </React.Fragment>
   );
 };

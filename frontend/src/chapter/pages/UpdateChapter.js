@@ -15,9 +15,8 @@ import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import "./ChapterForm.css";
 
-
 const UpdateChapter = () => {
-  const {isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [showConfirmModel, setShowConfirmModal] = useState(false);
   const showDeleteWarningHandler = () => {
@@ -51,9 +50,11 @@ const UpdateChapter = () => {
   );
 
   useEffect(() => {
-    const fetchChapter = async() => {
+    const fetchChapter = async () => {
       try {
-        const responseData = await sendRequest(`http://localhost:5000/api/chapters/${chapterId}`);
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/chapters/${chapterId}`
+        );
         setLoadedChapter(responseData.chapter);
         setFormData(
           {
@@ -68,33 +69,29 @@ const UpdateChapter = () => {
           },
           true
         );
-      } catch(err) {
-
-      }
+      } catch (err) {}
     };
     fetchChapter();
-
   }, [sendRequest, chapterId, setFormData]);
 
-
-  const chapterUpdateSubmitHandler = async event => {
+  const chapterUpdateSubmitHandler = async (event) => {
     event.preventDefault();
-    try { 
-      await sendRequest(`http://localhost:5000/api/chapters/${chapterId}`,
-        'PATCH', JSON.stringify ({
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/chapters/${chapterId}`,
+        "PATCH",
+        JSON.stringify({
           number: formState.inputs.number.value,
-          title: formState.inputs.title.value
+          title: formState.inputs.title.value,
         }),
         {
-          'Content-Type': 'application/json'
-        });
+          "Content-Type": "application/json",
+        }
+      );
 
-        history.push('/');
-    } catch (err) {
-
-    }
+      history.push("/");
+    } catch (err) {}
   };
-
 
   if (isLoading) {
     return (
@@ -113,8 +110,6 @@ const UpdateChapter = () => {
       </div>
     );
   }
-
-
 
   console.log("formState.inputs: " + formState.inputs);
 
@@ -140,34 +135,52 @@ const UpdateChapter = () => {
       >
         <p>Are you sure you want to delete this chapter? There is no undo!</p>
       </Modal>
-      {!isLoading && loadedChapter && <form className="chapter-form" onSubmit={chapterUpdateSubmitHandler}>
-        <Input
-          id="number"
-          element="input"
-          type="number"
-          label="Number"
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid chapter number."
-          onInput={inputHandler}
-          initialValue={loadedChapter.number}
-          initialValid={true}
-        />
-        <Input
-          id="title"
-          element="textarea"
-          label="title"
-          validators={[VALIDATOR_MINLENGTH(5)]}
-          errorText="Please enter a valid title (min. 5 characters)."
-          onInput={inputHandler}
-          initialValue={loadedChapter.title}
-          initialValid={true}
-        />
-        <Button type="submit" className="btn btn-sm btn-primary" disabled={!formState.isValid}>
-          Update Chapter
-        </Button>
-        <Button onClick={showDeleteWarningHandler}
-        className="btn btn-sm btn-danger">Delete Chapter</Button>
-      </form>}
+      {!isLoading && loadedChapter && (
+        <div class="card">
+          <div class="card-body">
+            <form onSubmit={chapterUpdateSubmitHandler}>
+              <Input
+                id="number"
+                element="input"
+                type="number"
+                label="Number"
+                validators={[VALIDATOR_REQUIRE()]}
+                errorText="Please enter a valid chapter number."
+                onInput={inputHandler}
+                initialValue={loadedChapter.number}
+                initialValid={true}
+              />
+              <Input
+                id="title"
+                element="textarea"
+                label="title"
+                validators={[VALIDATOR_MINLENGTH(5)]}
+                errorText="Please enter a valid title (min. 5 characters)."
+                onInput={inputHandler}
+                initialValue={loadedChapter.title}
+                initialValid={true}
+              />
+            </form>
+          </div>
+          <div className="card-footer">
+            <div className="d-flex justify-content-between">
+              <Button
+                type="submit"
+                className="btn btn-sm btn-primary"
+                disabled={!formState.isValid}
+              >
+                Update Chapter
+              </Button>
+              <Button
+                onClick={showDeleteWarningHandler}
+                className="btn btn-sm btn-danger"
+              >
+                Delete Chapter
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </React.Fragment>
   );
 };
