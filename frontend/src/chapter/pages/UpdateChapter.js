@@ -166,7 +166,7 @@ const UpdateChapter = () => {
               <div className="d-flex justify-content-between">
                 <Button
                   type="submit"
-                  className="btn btn-sm btn-primary"
+                  className="btn btn-primary"
                   disabled={!formState.isValid}
                 >
                   Update Chapter
@@ -174,7 +174,7 @@ const UpdateChapter = () => {
                 <Button
                   type="button"
                   onClick={showDeleteWarningHandler}
-                  className="btn btn-sm btn-danger"
+                  className="btn btn-danger"
                 >
                   Delete Chapter
                 </Button>
