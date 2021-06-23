@@ -81,7 +81,7 @@ const createStrip = async (req, res, next) => {
     try {
         foundChapter = await Chapter.findById(chapter);
     } catch (err) {
-        const error = new HttpError('Creating strip failed', 500);
+        const error = new HttpError('Creating strip failed ' + err, 500);
         return next(error);
     }
 

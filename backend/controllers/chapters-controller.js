@@ -49,6 +49,7 @@ const getChapters = async (req, res, next) => {
 };
 
 const createChapter = async (req, res, next) => {
+  console.log('createChapter()');
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     throw new HttpError("Invalid data in call", 422);
@@ -112,7 +113,9 @@ const updateChapter = async (req, res, next) => {
 };
 
 const deleteChapter = async (req, res, next) => {
+  console.log('deleteChapter()');
   const chapterId = req.params.chapterId;
+  console.log('deleteChapter(' + chapterId + ')');
   let chapter;
   try {
     chapter = await Chapter.findById(chapterId);
@@ -133,6 +136,7 @@ const deleteChapter = async (req, res, next) => {
   }
 
   try {
+    console.log('ready to delete chapter');
     await chapter.remove();
   } catch (err) {
     const error = new HttpError("Could not delete chapter", 500);

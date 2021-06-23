@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
-import Modal from "../../shared/components/UIElements/Modal";
+import AModal from "../../shared/components/UIElements/AModal";
 import Card from "../../shared/components/UIElements/Card";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
@@ -18,7 +18,7 @@ import "./ChapterForm.css";
 const UpdateChapter = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  const [showConfirmModel, setShowConfirmModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const showDeleteWarningHandler = () => {
     setShowConfirmModal(true);
   };
@@ -27,7 +27,6 @@ const UpdateChapter = () => {
   };
   const confirmDeleteWarningHandler = () => {
     setShowConfirmModal(false);
-    console.log("deleting...");
   };
 
   const chapterId = useParams().chapterId;
@@ -116,29 +115,31 @@ const UpdateChapter = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      <Modal
-        show={showConfirmModel}
+
+      <AModal
+        show={showConfirmModal}
         onCancel={cancelDeleteWarningHandler}
         header="Are you sure?"
-        conentClass="stip-display__modal-content"
+        contentClass="strip-display__modal-content"
         footerClass="strip-display__modal-actions"
         footer={
-          <React.Fragment>
-            <Button inverse onClick={cancelDeleteWarningHandler}>
+          <div className="d-flex justify-content-between">
+            <Button className="btn btn-secondary" onClick={cancelDeleteWarningHandler}>
               Cancel
             </Button>
-            <Button danger onClick={confirmDeleteWarningHandler}>
+            <Button className="btn btn-danger" onClick={confirmDeleteWarningHandler}>
               Delete
             </Button>
-          </React.Fragment>
+          </div>
         }
       >
         <p>Are you sure you want to delete this chapter? There is no undo!</p>
-      </Modal>
+      </AModal>
+
       {!isLoading && loadedChapter && (
-        <div class="card">
-          <div class="card-body">
-            <form onSubmit={chapterUpdateSubmitHandler}>
+        <form onSubmit={chapterUpdateSubmitHandler}>
+          <div className="card">
+            <div className="card-body">
               <Input
                 id="number"
                 element="input"
@@ -160,26 +161,27 @@ const UpdateChapter = () => {
                 initialValue={loadedChapter.title}
                 initialValid={true}
               />
-            </form>
-          </div>
-          <div className="card-footer">
-            <div className="d-flex justify-content-between">
-              <Button
-                type="submit"
-                className="btn btn-sm btn-primary"
-                disabled={!formState.isValid}
-              >
-                Update Chapter
-              </Button>
-              <Button
-                onClick={showDeleteWarningHandler}
-                className="btn btn-sm btn-danger"
-              >
-                Delete Chapter
-              </Button>
+            </div>
+            <div className="card-footer">
+              <div className="d-flex justify-content-between">
+                <Button
+                  type="submit"
+                  className="btn btn-sm btn-primary"
+                  disabled={!formState.isValid}
+                >
+                  Update Chapter
+                </Button>
+                <Button
+                  type="button"
+                  onClick={showDeleteWarningHandler}
+                  className="btn btn-sm btn-danger"
+                >
+                  Delete Chapter
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       )}
     </React.Fragment>
   );

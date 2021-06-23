@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../shared/components/FormElements/Button";
-import Modal from "../../shared/components/UIElements/Modal";
-import Card from "../../shared/components/UIElements/Card";
+import AModal from "../../shared/components/UIElements/AModal";
 import { AuthContext } from "../../shared/context/auth-context";
 import "./StripItem.css";
 
@@ -24,7 +23,7 @@ const StripItem = (props) => {
 
   return (
     <React.Fragment>
-      <Modal
+      <AModal
         show={showDeleteConfirmModal}
         onCancel={cancelDeleteWarningHandler}
         header="Are you sure?"
@@ -42,10 +41,10 @@ const StripItem = (props) => {
         }
       >
         <p>Do you want to delete this page? There is no undo.</p>
-      </Modal>
+      </AModal>
 
       
-      <div className="card">
+      <div className="card mb-4">
         <div className="card-body">
         <Link to={`/strip/${props.id}`}>
           <div>

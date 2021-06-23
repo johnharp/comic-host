@@ -1,4 +1,4 @@
-.modal {
+.amodal {
   z-index: 100;
   position: fixed;
   top: 22vh;
@@ -9,49 +9,49 @@
   border-radius: 8px;
 }
 
-.modal__header {
+.amodal__header {
   width: 100%;
   padding: 1rem 0.5rem;
   background: #2a006e;
   color: white;
 }
 
-.modal__header h2 {
+.amodal__header h2 {
   margin: 0.5rem;
 }
 
-.modal__content {
+.amodal__content {
   padding: 1rem 0.5rem;
 }
 
-.modal__footer {
+.amodal__footer {
   padding: 1rem 0.5rem;
 }
 
 @media (min-width: 768px) {
-  .modal {
+  .amodal {
     left: calc(50% - 20rem);
     width: 40rem;
   }
 }
 
-.modal-enter {
+.amodal-enter {
   transform: translateY(-10rem);
   opacity: 0;
 }
 
-.modal-enter-active {
+.amodal-enter-active {
   transform: translateY(0);
   opacity: 1;
   transition: all 200ms;
 }
 
-.modal-exit {
+.amodal-exit {
   transform: translateY(0);
   opacity: 1;
 }
 
-.modal-exit-active {
+.amodal-exit-active {
   transform: translateY(-10rem);
   opacity: 0;
   transition: all 200ms;

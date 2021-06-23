@@ -1,6 +1,5 @@
 import React from "react";
 
-import Card from "../../shared/components/UIElements/Card";
 import StripItem from "./StripItem";
 
 import "./StripList.css";
@@ -8,10 +7,12 @@ import "./StripList.css";
 const StripList = (props) => {
   if (props.items.length === 0) {
     return (
-      <div className="strip-list center">
-        <Card>
+      <div className="center">
+        <div className="card">
+          <div className="card-body">
           <h2>No strips found.</h2>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   }

@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import Backdrop from './Backdrop';
-import './Modal.css';
+import './AModal.css';
 
-const ModalOverlay = props => {
+const AModalOverlay = props => {
   const content = (
-    <div className={`modal ${props.className}`} style={props.style}>
-      <header className={`modal__header ${props.headerClass}`}>
+    <div className={`amodal ${props.className}`} style={props.style}>
+      <header className={`amodal__header ${props.headerClass}`}>
         <h2>{props.header}</h2>
       </header>
       <form
@@ -16,10 +16,10 @@ const ModalOverlay = props => {
           props.onSubmit ? props.onSubmit : event => event.preventDefault()
         }
       >
-        <div className={`modal__content ${props.contentClass}`}>
+        <div className={`amodal__content ${props.contentClass}`}>
           {props.children}
         </div>
-        <footer className={`modal__footer ${props.footerClass}`}>
+        <footer className={`amodal__footer ${props.footerClass}`}>
           {props.footer}
         </footer>
       </form>
@@ -28,7 +28,7 @@ const ModalOverlay = props => {
   return ReactDOM.createPortal(content, document.getElementById('modal-hook'));
 };
 
-const Modal = props => {
+const AModal = props => {
   return (
     <React.Fragment>
       {props.show && <Backdrop onClick={props.onCancel} />}
@@ -37,12 +37,12 @@ const Modal = props => {
         mountOnEnter
         unmountOnExit
         timeout={200}
-        classNames="modal"
+        classNames="amodal"
       >
-        <ModalOverlay {...props} />
+        <AModalOverlay {...props} />
       </CSSTransition>
     </React.Fragment>
   );
 };
 
-export default Modal;
+export default AModal;

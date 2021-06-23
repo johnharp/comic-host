@@ -10,7 +10,7 @@ const ChapterItem = (props) => {
   const auth = useContext(AuthContext);
 
   return (
-    <div className="col-4">
+    <div className="col-lg-4 col-md-6 col-sm-12 pb-3">
       <div className="card">
         <div className="card-header bg-secondary">
           <h3>Chapter {props.number}</h3>
@@ -23,8 +23,8 @@ const ChapterItem = (props) => {
             <h3>{props.title}</h3>
           </Link>
           <div>{props.stripCount} pages</div>
-
-          {auth.isLoggedIn && (
+        </div>
+        {auth.isLoggedIn && (
             <div className="card-footer">
               <div className="d-flex justify-content-between">
                 <Button
@@ -36,7 +36,6 @@ const ChapterItem = (props) => {
               </div>
             </div>
           )}
-        </div>
       </div>
     </div>
   );
