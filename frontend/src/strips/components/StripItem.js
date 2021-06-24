@@ -2,10 +2,12 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../shared/components/FormElements/Button";
 import AModal from "../../shared/components/UIElements/AModal";
+
 import { AuthContext } from "../../shared/context/auth-context";
 import "./StripItem.css";
 
 const StripItem = (props) => {
+  
   const auth = useContext(AuthContext);
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const showDeleteWarningHandler = () => {
@@ -18,7 +20,7 @@ const StripItem = (props) => {
 
   const confirmDeleteHandler = () => {
     setShowDeleteConfirmModal(false);
-    console.log("DELETING...");
+    console.log("no...");
   };
 
   return (

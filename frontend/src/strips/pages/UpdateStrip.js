@@ -4,6 +4,7 @@ import { useParams, useHistory } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
+import AModal from "../../shared/components/UIElements/AModal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
@@ -20,8 +21,9 @@ const UpdateStrip = () => {
     setShowDeleteConfirmModal(false);
   };
 
-  const confirmDeleteWarnHandler = () => {
+  const confirmDeleteHandler = () => {
     setShowDeleteConfirmModal(false);
+    console.log("DELETING...");
   };
 
   const stripId = useParams().stripId;
@@ -79,6 +81,26 @@ const UpdateStrip = () => {
     <React.Fragment>
       {!isLoading && loadedStrip && (
         <React.Fragment>
+      <AModal
+        show={showDeleteConfirmModal}
+        onCancel={cancelDeleteWarnHandler}
+        header="Are you sure?"
+        footerClass="strip-item__modal-actions"
+        footer={
+          <React.Fragment>
+            <Button inverse onClick={cancelDeleteWarnHandler}>
+              Cancel
+            </Button>
+
+            <Button danger onClick={confirmDeleteHandler}>
+              Delete
+            </Button>
+          </React.Fragment>
+        }
+      >
+        <p>Do you want to delete this page? There is no undo.</p>
+      </AModal>
+
           <Link to={`/chapter/${loadedStrip.chapter}/strips`}>
             <div>Back</div>
           </Link>
