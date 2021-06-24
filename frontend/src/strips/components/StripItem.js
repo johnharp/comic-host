@@ -58,7 +58,7 @@ const StripItem = (props) => {
         {auth.isLoggedIn && (
           <div className="card-footer">
             <div className="d-flex justify-content-between">
-              <Button to={`/strips/${props.id}`}
+              <Button to={`/strip/${props.id}/edit`}
                 className="btn btn-sm btn-primary">
                 Edit
               </Button>

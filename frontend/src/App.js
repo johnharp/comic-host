@@ -14,6 +14,8 @@ import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import ChapterStrips from "./strips/pages/ChapterStrips";
 import ChapterNewStrip from "./chapter/pages/ChapterNewStrip";
 import Strip from "./strips/pages/Strip";
+import UpdateStrip from "./strips/pages/UpdateStrip";
+
 import { AuthContext } from "./shared/context/auth-context";
 import "./App.css";
 
@@ -41,6 +43,9 @@ const App = () => {
         </Route>
         <Route path="/chapter/:chapterId/newstrip" exact>
           <ChapterNewStrip />
+        </Route>
+        <Route path="/strip/:stripId/edit">
+          <UpdateStrip />
         </Route>
         <Route path="/strip/:stripId" exact>
           <Strip />
