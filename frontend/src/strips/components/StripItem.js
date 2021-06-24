@@ -9,42 +9,9 @@ import "./StripItem.css";
 const StripItem = (props) => {
   
   const auth = useContext(AuthContext);
-  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
-  const showDeleteWarningHandler = () => {
-    setShowDeleteConfirmModal(true);
-  };
-
-  const cancelDeleteWarningHandler = () => {
-    setShowDeleteConfirmModal(false);
-  };
-
-  const confirmDeleteHandler = () => {
-    setShowDeleteConfirmModal(false);
-    console.log("no...");
-  };
 
   return (
     <React.Fragment>
-      <AModal
-        show={showDeleteConfirmModal}
-        onCancel={cancelDeleteWarningHandler}
-        header="Are you sure?"
-        footerClass="strip-item__modal-actions"
-        footer={
-          <React.Fragment>
-            <Button inverse onClick={cancelDeleteWarningHandler}>
-              Cancel
-            </Button>
-
-            <Button danger onClick={confirmDeleteHandler}>
-              Delete
-            </Button>
-          </React.Fragment>
-        }
-      >
-        <p>Do you want to delete this page? There is no undo.</p>
-      </AModal>
-
       
       <div className="card mb-4">
         <div className="card-body">
@@ -64,13 +31,6 @@ const StripItem = (props) => {
                 className="btn btn-sm btn-primary">
                 Edit
               </Button>
-
-              {auth.isLoggedIn && (
-                <Button className="btn btn-sm btn-danger"
-                  onClick={showDeleteWarningHandler}>
-                  Delete
-                </Button>
-              )}
             </div>
           </div>
         )}

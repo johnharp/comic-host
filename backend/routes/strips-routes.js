@@ -16,6 +16,6 @@ router.post(
     [check("number").not().isEmpty()],
     stripsController.updateStrip
   );
-  router.delete("/:chapterId", stripsController.deleteStrip);
+  router.delete("/:stripId", stripsController.deleteStrip);
 
 module.exports = router;

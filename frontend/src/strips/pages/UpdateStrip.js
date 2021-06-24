@@ -5,6 +5,8 @@ import { useParams, useHistory } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import AModal from "../../shared/components/UIElements/AModal";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
@@ -13,6 +15,9 @@ const UpdateStrip = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const stripId = useParams().stripId;
+  const history = useHistory();
+
   const showDeleteWarnHandler = () => {
     setShowDeleteConfirmModal(true);
   };
@@ -21,13 +26,18 @@ const UpdateStrip = () => {
     setShowDeleteConfirmModal(false);
   };
 
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async () => {
     setShowDeleteConfirmModal(false);
-    console.log("DELETING...");
-  };
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/strips/${stripId}`,
+        "DELETE"
+      );
 
-  const stripId = useParams().stripId;
-  const history = useHistory();
+      const url = `/chapter/${loadedStrip.chapter}/strips`;
+      history.push(url);
+    } catch (err) {}
+  };
 
   const [loadedStrip, setLoadedStrip] = useState();
 
@@ -79,27 +89,29 @@ const UpdateStrip = () => {
 
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <LoadingSpinner asOverlay />}
       {!isLoading && loadedStrip && (
         <React.Fragment>
-      <AModal
-        show={showDeleteConfirmModal}
-        onCancel={cancelDeleteWarnHandler}
-        header="Are you sure?"
-        footerClass="strip-item__modal-actions"
-        footer={
-          <React.Fragment>
-            <Button inverse onClick={cancelDeleteWarnHandler}>
-              Cancel
-            </Button>
+          <AModal
+            show={showDeleteConfirmModal}
+            onCancel={cancelDeleteWarnHandler}
+            header="Are you sure?"
+            footerClass="strip-item__modal-actions"
+            footer={
+              <React.Fragment>
+                <Button inverse onClick={cancelDeleteWarnHandler}>
+                  Cancel
+                </Button>
 
-            <Button danger onClick={confirmDeleteHandler}>
-              Delete
-            </Button>
-          </React.Fragment>
-        }
-      >
-        <p>Do you want to delete this page? There is no undo.</p>
-      </AModal>
+                <Button danger onClick={confirmDeleteHandler}>
+                  Delete
+                </Button>
+              </React.Fragment>
+            }
+          >
+            <p>Do you want to delete this page? There is no undo.</p>
+          </AModal>
 
           <Link to={`/chapter/${loadedStrip.chapter}/strips`}>
             <div>Back</div>
